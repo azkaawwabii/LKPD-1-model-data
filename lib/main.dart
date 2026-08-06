@@ -1,26 +1,34 @@
-// JAWABAN SOAL:
-// 1. Bagaimana pemecahan program menjadi fungsi membantu koperasi bila kelak aturan potongan diubah?
-//    Pemecahan menjadi fungsi menerapkan prinsip Reusability & Modularity. 
-//    Jika rumus atau aturan potongan berubah, kita TIDAK perlu mencari dan mengubah 
-//    rumus di setiap baris transaksi yang tersebar di dalam kode.
+// 1. Definisi Kelas Barang
+class Barang {
+  // Atribut
+  String namaBarang;
+  double harga;
+  int stok;
 
-// 2. Bagian mana yang cukup diubah sekali?
-//    Cukup mengubah logika di DALAM tubuh fungsi `hitungHargaAkhir()` saja. 
-//    Seluruh pemanggilan fungsi di tempat lain akan otomatis mengikuti aturan baru tersebut.
+  // Konstruktor
+  Barang(this.namaBarang, this.harga, this.stok);
 
-double hitungTotal(int jumlah, double harga) {
-  return jumlah * harga;
+  // Method untuk menampilkan kartu barang
+  void tampilkan() {
+    print("=================================");
+    print("          KARTU BARANG           ");
+    print("=================================");
+    print("Nama Barang : $namaBarang");
+    print("Harga       : Rp ${harga.toStringAsFixed(0)}");
+    print("Stok Sisa   : $stok unit");
+    print("=================================\n");
+  }
 }
 
-// Cukup ubah rumus di dalam fungsi ini jika aturan potongan berubah kelak
-double hitungHargaAkhir(double total, double persenPotongan) {
-  return total - (total * persenPotongan / 100);
-}
-
+// 2. Fungsi Utama (Main)
 void main() {
-  double totalAwal = hitungTotal(10, 5000);
-  double totalAkhir = hitungHargaAkhir(totalAwal, 10);
+  // Membuat minimal 3 objek Barang berbeda
+  Barang barang1 = Barang("Buku Tulis", 5000, 20);
+  Barang barang2 = Barang("Pulpen Pilot", 3500, 50);
+  Barang barang3 = Barang("Roti Sisir", 7000, 15);
 
-  print('Total Awal  : Rp $totalAwal');
-  print('Total Akhir : Rp $totalAkhir');
+  // Memanggil method tampilkan() untuk tiap objek
+  barang1.tampilkan();
+  barang2.tampilkan();
+  barang3.tampilkan();
 }
