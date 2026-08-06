@@ -1,14 +1,11 @@
 // 1. Definisi Kelas Barang
 class Barang {
-  // Atribut
   String namaBarang;
   double harga;
   int stok;
 
-  // Konstruktor
   Barang(this.namaBarang, this.harga, this.stok);
 
-  // Method untuk menampilkan kartu barang
   void tampilkan() {
     print("=================================");
     print("          KARTU BARANG           ");
@@ -20,15 +17,36 @@ class Barang {
   }
 }
 
-// 2. Fungsi Utama (Main)
 void main() {
-  // Membuat minimal 3 objek Barang berbeda
-  Barang barang1 = Barang("Buku Tulis", 5000, 20);
-  Barang barang2 = Barang("Pulpen Pilot", 3500, 50);
-  Barang barang3 = Barang("Roti Sisir", 7000, 15);
+  // 2. Menyimpan objek-objek ke dalam List<Barang>
+  List<Barang> daftarBarang = [
+    Barang("Buku Tulis", 5000, 20),
+    Barang("Pulpen Pilot", 3500, 50),
+    Barang("Roti Sisir", 7000, 15),
+  ];
 
-  // Memanggil method tampilkan() untuk tiap objek
-  barang1.tampilkan();
-  barang2.tampilkan();
-  barang3.tampilkan();
+  // 3. Menampilkan semua barang menggunakan perulangan (for-in loop)
+  for (var barang in daftarBarang) {
+    barang.tampilkan();
+  }
 }
+
+/* 
+================================================================================
+PERBANDINGAN & KEUNGGULAN DIBANDINGKAN CARA SPRINT 3 (Variabel Lepas / Paralel)
+================================================================================
+1. Terorganisir (Encapsulation):
+   - Sprint 3: Data tersimpan dalam banyak List terpisah (misal: List nama, List harga, 
+     List stok). Jika data bertambah/berubah, rentan terjadi ketidakcocokan indeks.
+   - Sprint 4 (OOP): Data (nama, harga, stok) dan perilakunya (tampilkan) dibungkus 
+     menjadi satu kesatuan objek `Barang`.
+
+2. Kemudahan Skalabilitas & Pengelolaan (Maintainability):
+   - Menambah barang baru cukup menambahkan satu instance `Barang(...)` ke dalam `List<Barang>`.
+   - Perulangan (looping) menjadi sangat ringkas karena hanya memanggil `barang.tampilkan()`, 
+     tanpa perlu mengelola indeks manual (seperti `nama[i]`, `harga[i]`, `stok[i]`).
+
+3. Keamanan Data & Menghindari Error:
+   - Mencegah bug akibat salah mengambil atau menggeser indeks atribut barang.
+================================================================================
+*/
