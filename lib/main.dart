@@ -17,15 +17,16 @@ class Barang {
   }
 }
 
+// 2. Fungsi Utama (Main)
 void main() {
-  // 2. Menyimpan objek-objek ke dalam List<Barang>
+  // Menyimpan objek-objek ke dalam List<Barang>
   List<Barang> daftarBarang = [
     Barang("Buku Tulis", 5000, 20),
     Barang("Pulpen Pilot", 3500, 50),
     Barang("Roti Sisir", 7000, 15),
   ];
 
-  // 3. Menampilkan semua barang menggunakan perulangan (for-in loop)
+  // Menampilkan semua barang menggunakan perulangan
   for (var barang in daftarBarang) {
     barang.tampilkan();
   }
@@ -33,20 +34,25 @@ void main() {
 
 /* 
 ================================================================================
-PERBANDINGAN & KEUNGGULAN DIBANDINGKAN CARA SPRINT 3 (Variabel Lepas / Paralel)
+KEUNTUNGAN MEMODELKAN BARANG SEBAGAI OBJEK BAGI PENGEMBANGAN SISTEM KOPERASI:
 ================================================================================
-1. Terorganisir (Encapsulation):
-   - Sprint 3: Data tersimpan dalam banyak List terpisah (misal: List nama, List harga, 
-     List stok). Jika data bertambah/berubah, rentan terjadi ketidakcocokan indeks.
-   - Sprint 4 (OOP): Data (nama, harga, stok) dan perilakunya (tampilkan) dibungkus 
-     menjadi satu kesatuan objek `Barang`.
+1. Kemudahan Pengembangan Fitur Baru (Extensibility):
+   Jika sistem koperasi berkembang dan butuh fitur baru (misal: diskon, kategori 
+   barang, atau tanggal kadaluarsa), kita cukup menambahkan atribut/method di 
+   dalam kelas `Barang` tanpa perlu merusak struktur kode yang sudah ada.
 
-2. Kemudahan Skalabilitas & Pengelolaan (Maintainability):
-   - Menambah barang baru cukup menambahkan satu instance `Barang(...)` ke dalam `List<Barang>`.
-   - Perulangan (looping) menjadi sangat ringkas karena hanya memanggil `barang.tampilkan()`, 
-     tanpa perlu mengelola indeks manual (seperti `nama[i]`, `harga[i]`, `stok[i]`).
+2. Reusability (Dapat Digunakan Kembali):
+   Kelas `Barang` dapat dipanggil dan digunakan kembali di berbagai modul sistem 
+   koperasi lainnya (seperti modul Kasir, Transaksi, Penjualan, atau Laporan Gudang) 
+   tanpa harus menulis ulang variabel dari awal.
 
-3. Keamanan Data & Menghindari Error:
-   - Mencegah bug akibat salah mengambil atau menggeser indeks atribut barang.
+3. Kemudahan Perawatan Kode (Maintainability):
+   Seluruh logika bisnis dan manipulasi data barang terpusat di dalam satu kelas. 
+   Jika terjadi perubahan aturan atau bug, perbaikan hanya dilakukan pada satu 
+   tempat saja.
+
+4. Arsitektur Kode Lebih Rapi & Terstruktur (Encapsulation):
+   Mencegah bahaya ketidakcocokan data akibat variabel lepas/terpisah serta 
+   memudahkan kolaborasi tim pengembang dalam skala proyek yang lebih besar.
 ================================================================================
 */
