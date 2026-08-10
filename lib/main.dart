@@ -30,8 +30,8 @@ void main() {
 }
 
 /* 
-  === PERBANDINGAN DENGAN SPRINT 3 ===
-  1. Kode Lebih Rapi & Terstruktur: Data barang (nama, harga, stok) dibungkus jadi 1 objek utuh, gak tercecer di banyak variabel terpisah kayak di Sprint 3.
-  2. Efisien & Scalable: Kalo barang nambah jadi 100, di Sprint 4 tinggal tambahin ke List dan perulangannya tetep 3 baris kode aja (gak perlu panggil tampilkan() manual 100 kali).
-  3. Gampang Dikelola (Clean Code): Mengurangi duplikasi kode dan lebih gampang kalo mau diubah atau ditambah fiturnya nanti.
+  Keuntungan memodelkan barang sebagai objek ke depan:
+  1. Skalabilitas Tinggi: Gampang nambah atribut baru (misal: kode_barang, diskon) atau method baru (misal: kurangiStok()) tanpa merusak struktur kode yang udah ada.
+  2. Kemudahan Pengelolaan Data: Data barang jadi satu kesatuan (objek utuh), sehingga gampang dimanipulasi dalam List, diproses ke transaksi, atau diintegrasikan ke database/API.
+  3. Reusability (Dapat Digunakan Ulang): Kelas Barang bisa dipakai lagi di modul/fitur lain (seperti modul Kasir, Stok Gudang, atau Laporan Penjualan) tanpa perlu bikin variabel dari awal.
 */
