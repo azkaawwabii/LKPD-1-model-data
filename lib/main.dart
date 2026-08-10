@@ -1,14 +1,11 @@
 // Kelas Barang
 class Barang {
-  // Atribut
   String nama;
   int harga;
   int stok;
 
-  // Konstruktor
   Barang(this.nama, this.harga, this.stok);
 
-  // Method buat nampilin kartu barang
   void tampilkan() {
     print("=== KARTU BARANG ===");
     print("Nama  : $nama");
@@ -18,15 +15,23 @@ class Barang {
   }
 }
 
-// Function main
 void main() {
-  // Buat 3 objek barang
-  var barang1 = Barang("Buku Tulis", 5000, 20);
-  var barang2 = Barang("Pulpen", 3000, 50);
-  var barang3 = Barang("Roti", 7000, 15);
+  // Simpan ketiga objek ke List<Barang>
+  List<Barang> daftarBarang = [
+    Barang("Buku Tulis", 5000, 20),
+    Barang("Pulpen", 3000, 50),
+    Barang("Roti", 7000, 15),
+  ];
 
-  // Panggil method tampilkan()
-  barang1.tampilkan();
-  barang2.tampilkan();
-  barang3.tampilkan();
+  // Tampilkan semua memakai perulangan (looping)
+  for (var barang in daftarBarang) {
+    barang.tampilkan();
+  }
 }
+
+/* 
+  === PERBANDINGAN DENGAN SPRINT 3 ===
+  1. Kode Lebih Rapi & Terstruktur: Data barang (nama, harga, stok) dibungkus jadi 1 objek utuh, gak tercecer di banyak variabel terpisah kayak di Sprint 3.
+  2. Efisien & Scalable: Kalo barang nambah jadi 100, di Sprint 4 tinggal tambahin ke List dan perulangannya tetep 3 baris kode aja (gak perlu panggil tampilkan() manual 100 kali).
+  3. Gampang Dikelola (Clean Code): Mengurangi duplikasi kode dan lebih gampang kalo mau diubah atau ditambah fiturnya nanti.
+*/
