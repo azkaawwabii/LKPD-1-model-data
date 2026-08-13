@@ -1,44 +1,72 @@
-class Barang {
-  String nama;
-  int harga;
-  int _stok; // Privat: Tidak bisa diubah sembarangan dari luar
+import 'package:flutter/material.dart';
 
-  Barang(this.nama, this.harga, int stokAwal) : _stok = stokAwal;
+void main() {
+  runApp(const MyApp());
+}
 
-  // Getter untuk membaca stok
-  int get stok => _stok;
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
-  // Method jual(int n) untuk mengurangi stok hanya bila mencukupi
-  void jual(int jumlah) {
-    if (jumlah <= 0) {
-      print("Jumlah penjualan harus lebih dari 0!");
-    } else if (jumlah <= _stok) {
-      _stok -= jumlah;
-      print("Berhasil menjual $jumlah $nama. Sisa stok: $_stok");
-    } else {
-      print("Gagal! Stok $nama tidak mencukupi (Sisa: $_stok, Diminta: $jumlah)");
-    }
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      home: KasirPage(),
+    );
   }
 }
 
-void main() {
-  // Pengujian
-  Barang buku = Barang("Buku Tulis", 5000, 10);
+class KasirPage extends StatefulWidget {
+  const KasirPage({super.key});
 
-  print("Stok Awal: ${buku.stok}"); // Membaca stok lewat getter
-
-  // 1. Uji penjualan valid (stok cukup)
-  buku.jual(3); // Stok jadi 7
-
-  // 2. Uji penjualan tidak valid (stok tidak mencukupi)
-  buku.jual(15); // Gagal, stok tidak berubah
-
-  // 3. Mencoba ubah stok langsung dari luar (akan ERROR jika di file terpisah)
-  // buku._stok = -100; // Tidak bisa dilakukan!
+  @override
+  State<KasirPage> createState() => _KasirPageState();
 }
-/* 
-  Mengapa melindungi _stok penting bagi integritas data koperasi?
-  1. Mencegah Data Kacau/Invalid: Melindungi _stok memastikan nilai stok tidak bisa diubah sembarangan dari luar (misal: diisi angka minus atau diubah tanpa transaksi).
-  2. Menjaga Konsistensi Transaksi: Perubahan stok wajib melalui validasi di method jual(), sehingga jumlah stok di sistem selalu akurat dan sesuai dengan kondisi fisik barang di koperasi.
-  3. Meningkatkan Keamanan Kode (Enkapsulasi): Mencegah bug atau human error dari developer lain yang tidak sengaja mengubah variabel stok secara langsung.
-*/
+
+class _KasirPageState extends State<KasirPage> {
+  // Controller buat ngambil teks dari inputan
+  final TextEditingController _inputController = TextEditingController();
+
+  // Fungsi prosesBeli sesuai permintaan kamu
+  void prosesBeli(String inputJumlah) {
+    try {
+      int jumlah = int.parse(inputJumlah);
+      print("Penjualan berhasil diproses! Jumlah beli: $jumlah");
+    } catch (e) {
+      print("Waduh, input harus berupa angka ya! Silakan coba ketik ulang jumlahnya.");
+    } finally {
+      print("Transaksi dicatat di log.");
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Aplikasi Kasir Koperasi')),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Tempat ngetik input jumlah
+            TextField(
+              controller: _inputController,
+              decoration: const InputDecoration(
+                labelText: 'Masukkan Jumlah Beli',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 20),
+            // Tombol buat nge-run fungsinya
+            ElevatedButton(
+              onPressed: () {
+                // Panggil fungsi prosesBeli pake teks dari inputan
+                prosesBeli(_inputController.text);
+              },
+              child: const Text('Proses Beli'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
