@@ -1,72 +1,112 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:io';
 
-void main() {
-  runApp(const MyApp());
+// 1. Model Data Barang
+class Barang {
+  String nama;
+  double hargaUmum;
+  double hargaAnggota;
+  int stok;
+
+  Barang({
+    required this.nama,
+    required this.hargaUmum,
+    required this.hargaAnggota,
+    required this.stok,
+  });
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: KasirPage(),
-    );
-  }
+// 2. Fungsi Async untuk Muat Laporan (Sprint-8)
+Future<void> muatLaporan() async {
+  print("========================================");
+  print("   SISTEM KASIR UTUH BRANTAS MART");
+  print("========================================");
+  print("Menyiapkan laporan awal...");
+  await Future.delayed(Duration(seconds: 1));
+  print("Laporan siap! Sistem berjalan lancar.\n");
 }
 
-class KasirPage extends StatefulWidget {
-  const KasirPage({super.key});
+// 3. Fungsi Utama Kasir (Menyatukan Sprint 1-7)
+void prosesBeli(Barang produk) {
+  print("--- DAFTAR BARANG ---");
+  print("Nama Barang  : ${produk.nama}");
+  print("Harga Umum   : Rp ${produk.hargaUmum}");
+  print("Harga Anggota: Rp ${produk.hargaAnggota}");
+  print("Stok Tersedia: ${produk.stok}");
+  print("---------------------\n");
 
-  @override
-  State<KasirPage> createState() => _KasirPageState();
-}
+  // Input Status Anggota
+  stdout.write("Apakah pembeli Anggota? (y/n): ");
+  String? isAnggotaInput = stdin.readLineSync()?.trim().toLowerCase();
+  bool isAnggota = (isAnggotaInput == 'y');
 
-class _KasirPageState extends State<KasirPage> {
-  // Controller buat ngambil teks dari inputan
-  final TextEditingController _inputController = TextEditingController();
+  // Input Jumlah Beli
+  stdout.write("Masukkan jumlah yang ingin dibeli: ");
+  String? inputJumlah = stdin.readLineSync();
 
-  // Fungsi prosesBeli sesuai permintaan kamu
-  void prosesBeli(String inputJumlah) {
-    try {
-      int jumlah = int.parse(inputJumlah);
-      print("Penjualan berhasil diproses! Jumlah beli: $jumlah");
-    } catch (e) {
-      print("Waduh, input harus berupa angka ya! Silakan coba ketik ulang jumlahnya.");
-    } finally {
-      print("Transaksi dicatat di log.");
+  // PENANGANAN GALAT (Error Handling)
+  try {
+    // Validasi & parsing input
+    if (inputJumlah == null || inputJumlah.isEmpty) {
+      throw FormatException("Input tidak boleh kosong!");
     }
-  }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Aplikasi Kasir Koperasi')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Tempat ngetik input jumlah
-            TextField(
-              controller: _inputController,
-              decoration: const InputDecoration(
-                labelText: 'Masukkan Jumlah Beli',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 20),
-            // Tombol buat nge-run fungsinya
-            ElevatedButton(
-              onPressed: () {
-                // Panggil fungsi prosesBeli pake teks dari inputan
-                prosesBeli(_inputController.text);
-              },
-              child: const Text('Proses Beli'),
-            ),
-          ],
-        ),
-      ),
-    );
+    int jumlah = int.parse(inputJumlah); // Mencoba ubah string ke angka
+
+    if (jumlah <= 0) {
+      print("\n[PERINGATAN] Jumlah beli harus lebih dari 0!");
+      return;
+    }
+
+    if (jumlah > produk.stok) {
+      print("\n[PERINGATAN] Stok tidak cukup! Stok sisa: ${produk.stok}");
+      return;
+    }
+
+    // Tentukan harga berdasarkan status anggota
+    double hargaSatuan = isAnggota ? produk.hargaAnggota : produk.hargaUmum;
+    double totalHarga = hargaSatuan * jumlah;
+
+    // Hitung sisa stok
+    produk.stok -= jumlah;
+
+    // Tampilkan Struk Transaksi
+    print("\n========================================");
+    print("        STRUK TRANSAKSI BRANTAS MART     ");
+    print("========================================");
+    print("Tipe Pembeli : ${isAnggota ? 'Anggota Koperasi' : 'Pelanggan Umum'}");
+    print("Jumlah Beli  : $jumlah pcs");
+    print("Harga Satuan : Rp $hargaSatuan");
+    print("TOTAL BAYAR  : Rp $totalHarga");
+    print("----------------------------------------");
+    print("Sisa Stok    : ${produk.stok} pcs");
+    print("========================================");
+    print("      TRANSAKSI BERHASIL PROSES!        ");
+    print("========================================");
+
+  } catch (e) {
+    // Menangkap error jika user input "dua" alih-alih "2"
+    print("\n[ERROR] Input jumlah salah! Harap masukkan angka bulat yang valid.");
+    print("Detail Error: $e");
+    print("-> Program TETAP BERJALAN & tidak crash.");
   }
+}
+
+// 4. Main Function (Pintu Masuk Program)
+void main() async {
+  // Simulasi memuat laporan di awal (Async)
+  await muatLaporan();
+
+  // Inisialisasi Data Barang Brantas Mart
+  Barang sabun = Barang(
+    nama: "Sabun Brantas",
+    hargaUmum: 5000,
+    hargaAnggota: 4000,
+    stok: 10,
+  );
+
+  // Jalankan Proses Transaksi
+  prosesBeli(sabun);
+  
+  print("\nSistem selesai mengeksekusi perintah. Terima kasih!");
 }
